@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Xanvial/todo-app-go/model"
-	gonanoid "github.com/matoous/go-nanoid/v2"
+	"github.com/gorilla/mux"
 )
 
 type MapStore struct {
@@ -23,13 +23,15 @@ func NewMapStore() *MapStore {
 func (ms *MapStore) CreateTodo(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
 
-	id, err := gonanoid.New()
-	if err != nil {
-		panic(err)
-	}
-
 	log.Println("ArrayStore | title:", title)
-	ms.data[id] = model.TodoData{
+	ms.data[title] = model.TodoData{
 		Title: title,
 	}
+}
+
+func (ms *MapStore) DeleteTodo(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	title := vars["title"]
+
+	delete(ms.data, title)
 }
