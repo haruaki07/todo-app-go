@@ -1,6 +1,7 @@
 package datastore
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 
@@ -20,6 +21,30 @@ func NewMapStore() *MapStore {
 	}
 }
 
+func (ms *MapStore) GetCompleted(w http.ResponseWriter, r *http.Request) {
+	completed := make([]model.TodoData, 0)
+	for _, v := range ms.data {
+		if v.Status {
+			completed = append(completed, v)
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(completed)
+}
+
+func (ms *MapStore) GetIncompleted(w http.ResponseWriter, r *http.Request) {
+	incompleted := make([]model.TodoData, 0)
+	for _, v := range ms.data {
+		if !v.Status {
+			incompleted = append(incompleted, v)
+		}
+	}
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(incompleted)
+}
+
 func (ms *MapStore) CreateTodo(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
 
@@ -32,6 +57,8 @@ func (ms *MapStore) CreateTodo(w http.ResponseWriter, r *http.Request) {
 func (ms *MapStore) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	title := vars["title"]
+
+	log.Println("ArrayStore | title:", title)
 
 	delete(ms.data, title)
 }
