@@ -49,7 +49,7 @@ func (ms *MapStore) GetIncomplete(w http.ResponseWriter, r *http.Request) {
 func (ms *MapStore) CreateTodo(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
 
-	log.Println("ArrayStore | title:", title)
+	log.Println("MapStore | title:", title)
 	ms.data[title] = model.TodoData{
 		Title: title,
 	}
@@ -63,8 +63,8 @@ func (ms *MapStore) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 
-	log.Println("ArrayStore | title:", title)
-	log.Println("ArrayStore | status:", status)
+	log.Println("MapStore | title:", title)
+	log.Println("MapStore | status:", status)
 
 	if todo, ok := ms.data[title]; ok {
 		todo.Status = status
@@ -76,7 +76,7 @@ func (ms *MapStore) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	title := vars["title"]
 
-	log.Println("ArrayStore | title:", title)
+	log.Println("MapStore | title:", title)
 
 	delete(ms.data, title)
 }
