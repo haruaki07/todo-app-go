@@ -34,7 +34,7 @@ func (ms *MapStore) GetCompleted(w http.ResponseWriter, r *http.Request) {
 	json.NewEncoder(w).Encode(completed)
 }
 
-func (ms *MapStore) GetIncompleted(w http.ResponseWriter, r *http.Request) {
+func (ms *MapStore) GetIncomplete(w http.ResponseWriter, r *http.Request) {
 	incompleted := make([]model.TodoData, 0)
 	for _, v := range ms.data {
 		if !v.Status {
