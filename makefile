@@ -1,7 +1,7 @@
 # run backend service
 run:
-	@go build -v -o bin/todoapp backend/main.go
-	@./bin/todoapp
+	@make build
+	@./bin/todoapp.exe
 
 build:
-	@go build -v -o bin/todoapp backend/main.go
+	@go build -v -o bin/todoapp.exe backend/main.go
