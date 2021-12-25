@@ -8,6 +8,7 @@ import (
 
 	"github.com/Xanvial/todo-app-go/model"
 	"github.com/gorilla/mux"
+	nanoid "github.com/matoous/go-nanoid/v2"
 )
 
 type MapStore struct {
@@ -49,34 +50,45 @@ func (ms *MapStore) GetIncomplete(w http.ResponseWriter, r *http.Request) {
 func (ms *MapStore) CreateTodo(w http.ResponseWriter, r *http.Request) {
 	title := r.FormValue("title")
 
-	log.Println("MapStore | title:", title)
-	ms.data[title] = model.TodoData{
-		Title: title,
+	id, _ := nanoid.New()
+
+	todo := model.TodoData{
+		ID:     id,
+		Title:  title,
+		Status: false,
 	}
+
+	log.Println("MapStore | id:", id)
+	log.Println("MapStore | title:", title)
+
+	ms.data[id] = todo
+
+	w.Header().Set("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(todo)
 }
 
 func (ms *MapStore) UpdateTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	title := vars["title"]
+	id := vars["id"]
 	status, err := strconv.ParseBool(r.FormValue("status"))
 	if err != nil {
 		panic(err)
 	}
 
-	log.Println("MapStore | title:", title)
+	log.Println("MapStore | id:", id)
 	log.Println("MapStore | status:", status)
 
-	if todo, ok := ms.data[title]; ok {
+	if todo, ok := ms.data[id]; ok {
 		todo.Status = status
-		ms.data[title] = todo
+		ms.data[id] = todo
 	}
 }
 
 func (ms *MapStore) DeleteTodo(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
-	title := vars["title"]
+	id := vars["id"]
 
-	log.Println("MapStore | title:", title)
+	log.Println("MapStore | id:", id)
 
-	delete(ms.data, title)
+	delete(ms.data, id)
 }
