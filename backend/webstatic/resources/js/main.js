@@ -108,7 +108,7 @@ function removeItem() {
 
 function removeItemInBackend(id, value) {
   $.ajax({
-    url: server + "delete/" + value, // TODO: change value to id
+    url: server + "delete/" + id, // TODO: change value to id
     type: 'DELETE',
     async: false,
     success: function (data) {
@@ -127,11 +127,11 @@ function completeItem() {
   if (typeId === 'todo') {
     data.todo.splice(data.todo.indexOf(value), 1);
     data.completed.push(value);
-    updateBackendItem(itemID, value, true);
+    updateBackendItem(itemID, true);
   } else {
     data.completed.splice(data.completed.indexOf(value), 1);
     data.todo.push(value);
-    updateBackendItem(itemID, value, false);
+    updateBackendItem(itemID, false);
   }
 
   // Check if the item should be added to the completed list or to re-added to the todo list
@@ -141,10 +141,10 @@ function completeItem() {
   target.insertBefore(item, target.childNodes[0]);
 }
 
-function updateBackendItem(id, value, status) {
+function updateBackendItem(id, status) {
   payload = { 'status': status };
   $.ajax({
-    url: server + "update/" + value, // TODO: change value to id
+    url: server + "update/" + id, // TODO: change value to id
     type: 'PUT',
     data: payload,
     async: false,

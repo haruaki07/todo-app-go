@@ -1,10 +1,10 @@
 # run backend service
 run:
-	@go build -v -o bin/todoapp backend/main.go
-	@./bin/todoapp
+	@go build -v -o bin/todoapp.exe backend/main.go
+	@./bin/todoapp.exe
 
 build:
-	@go build -v -o bin/todoapp backend/main.go
+	@go build -v -o bin/todoapp.exe backend/main.go
 
 db-init:
 	@go run migration/main.go init

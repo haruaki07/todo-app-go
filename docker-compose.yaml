@@ -5,9 +5,9 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: todo-db
-      POSTGRES_USER: toped
-      POSTGRES_PASSWORD: toped
+      POSTGRES_DB: todo_app_go
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root
       TZ: Asia/Jakarta
       PGTZ: Asia/Jakarta
     volumes:
