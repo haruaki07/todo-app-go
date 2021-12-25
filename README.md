@@ -1,5 +1,9 @@
 # todo-app-go
 
+## Datastores
+- database : https://github.com/haruaki07/todo-app-go/tree/db-base
+- arraystore/mapstore : https://github.com/haruaki07/todo-app-go/tree/arraystore
+
 Make sure to run `go mod vendor` first to download all needed libraries
 
 To run this application, call `make run` on root
